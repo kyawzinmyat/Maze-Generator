@@ -1,6 +1,8 @@
 package src;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class QueueFrointer extends Frointer{
@@ -48,6 +50,12 @@ public class QueueFrointer extends Frointer{
 			}
 		}
 		return false;
+	}
+
+	@Override
+	List<Cell> getNextCells() {
+		// TODO Auto-generated method stub
+		return new ArrayList<Cell>(frointer);
 	}
 
 }

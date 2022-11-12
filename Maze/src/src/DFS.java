@@ -1,10 +1,5 @@
 package src;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.animation.AnimationTimer;
-import javafx.scene.paint.Color;
 
 public class DFS extends Traversal{
 	

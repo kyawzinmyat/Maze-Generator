@@ -1,6 +1,5 @@
 package src;
 
-import java.util.List;
 
 public class BFS extends Traversal{
 	

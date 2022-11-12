@@ -22,6 +22,7 @@ public class Maze {
 	private Cell stop;	
 	private double cellSize;
 	public boolean isCleaned;
+	public boolean isGridBox;
 	
 	
 	public void resetStartAndStop()
@@ -89,7 +90,8 @@ public class Maze {
 	{
 		int height = (int) canvas.getHeight();
 		mazeHeight = (int) canvas.getHeight();
-		mazeWidth =  height / 4 * partition;
+		//mazeWidth =  height / 4 * partition;
+		mazeWidth = 600;
 	}
 	
 	public void clearMaze()
@@ -102,6 +104,18 @@ public class Maze {
 	{
 		initCellObj();
 		isCleaned = true;
+	}
+	
+	
+	public void fillRandomWeight()
+	{
+		for (int i = 0; i < rows; i++)
+		{
+			for (int j = 0; j < cols; j++)
+			{
+				maze[i][j].weight = (int) (Math.random() * 10);
+			}
+		}
 	}
 	
 	public void initCellObj()
@@ -121,14 +135,17 @@ public class Maze {
 		{
 			for (int j = 0; j < cols; j++)
 			{
-				maze[i][j].draw(g, marginTop, marginLeft);
+				if (!isGridBox)
+				{
+					maze[i][j].draw(g, marginTop, marginLeft);
+				}
+				else maze[i][j].drawG(g, marginTop, marginLeft);
 			}
 		}
 	}
 	
 	public List<Cell> getNeighs(Cell currentCell)
 	{
-		int count = 0;
 		List<Cell> neighs = new ArrayList<Cell> ();
 		int x = currentCell.y;
 		int y = currentCell.x;
@@ -136,25 +153,21 @@ public class Maze {
 		{
 			maze[x][y - 1].action = 3;
 			neighs.add(maze[x][y - 1]);
-			count ++;
 		}
 		if (validateEdgeCase(x, y, 0)) // top
 		{
 			maze[x - 1][y].action = 0;
 			neighs.add(maze[x - 1][y]);
-			count ++;
 		}
 		if (validateEdgeCase(x, y, 1)) // right
 		{
 			maze[x][y + 1].action = 1;
 			neighs.add(maze[x][y + 1]);
-			count ++;
 		}
 		if (validateEdgeCase(x, y, 2)) // 
 		{
 			maze[x + 1][y].action = 2;
 			neighs.add(maze[x + 1][y]);
-			count ++;
 		}
 		Collections.shuffle(neighs);
 		return neighs;
@@ -165,6 +178,7 @@ public class Maze {
 		List<Cell> ads = new ArrayList<Cell>();
 		int x = currentCell.y;
 		int y = currentCell.x;
+	
 		if (!currentCell.walls[0] && x - 1 >= 0) // if top open
 		{
 			if (!maze[x-1][y].walls[2])
@@ -193,7 +207,7 @@ public class Maze {
 				ads.add(maze[x][y - 1]);
 			}
 		}
-		
+		//Collections.shuffle(ads);
 		return ads;
 	}
 	 

@@ -17,22 +17,24 @@ public abstract class State {
 		this.t = t;
 	}
 	
-	protected void setExplored()
+	protected synchronized void setExplored()
 	{
-		explored.setText("Explored - " + t.visitedLength);
+		System.out.println(t.visited.size());
+		explored.setText("Explored - " + t.visited.size());
 	}
 	
-	protected void setPathLength()
+	protected synchronized void setPathLength()
 	{
+		System.out.println(t.path.size());
 		lengthOfPath.setText("Steps - " + t.getPathLength());
 	}
 	
-	protected void setExplored(int num)
+	protected synchronized void setExplored(int num)
 	{
 		explored.setText("Explored - " + num);
 	}
 	
-	protected void setPathLength(int num)
+	protected synchronized void setPathLength(int num)
 	{
 		lengthOfPath.setText("Steps" + num);
 	}
@@ -50,9 +52,13 @@ class Start extends State
 	{
 		if (t.state instanceof Start)
 		{
+			// if still edit mode no need to select start
+			if (t.isEdit)
+			{
+				t.state = t.start;
+				return;
+			}
 			t.state = t.end;
-			t.resetVisited();
-			t.frointer.resetFrointer();
 			if (!t.maze.isCleaned)
 			{
 				t.maze.clearMaze();
@@ -86,6 +92,9 @@ class End extends State
 	{
 		if (t.state instanceof End)
 		{	
+			
+			// after selecting stop, it's automatically generate a path
+			// so the maze is now filled with color rect
 			t.maze.isCleaned = false;
 			g.setFill(Color.GREEN);
 			g.fillRect(cell.left,
@@ -94,8 +103,6 @@ class End extends State
 			t.state = t.start;
 			t.maze.setStop(cell);
 			t.findPath();
-			setExplored();
-			setPathLength();
 		}
 	}
 	

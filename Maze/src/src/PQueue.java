@@ -1,5 +1,7 @@
 package src;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class PQueue extends Frointer{
@@ -47,6 +49,14 @@ public class PQueue extends Frointer{
 				}	
 			}
 		return false;
+	}
+	
+
+
+	@Override
+	List<Cell> getNextCells() {
+		// TODO Auto-generated method stub
+		return new ArrayList<Cell>(frointer);
 	}
 
 }

@@ -53,4 +53,10 @@ public class StackFrointer extends Frointer{
 		return false;
 	}
 
+	@Override
+	List<Cell> getNextCells() {
+		// TODO Auto-generated method stub
+		return frointer;
+	}
+
 }

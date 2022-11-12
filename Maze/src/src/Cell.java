@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class Cell implements Comparable<Cell>{
 	// store the cell wall
@@ -19,6 +20,7 @@ public class Cell implements Comparable<Cell>{
 	public int y;
 	public double top;
 	public double left;
+	public int weight = -1;
 	double lineWidth = 1;
 	int steps;
 	public int h;
@@ -60,8 +62,8 @@ public class Cell implements Comparable<Cell>{
 		// the cell top is open
 		//g.setFill(Color.BLACK);	
 		g.setStroke(Color.BLACK);
-		g.setLineWidth(2);
-		double x = this.x * cellHeight + 10 + lineWidth;
+		g.setLineWidth(lineWidth);
+		double x = this.x * cellHeight + marginLeft + lineWidth;
 		left = x;
 		double y = this.y * cellWidth + marginTop + lineWidth; 
 		top = y;
@@ -83,24 +85,102 @@ public class Cell implements Comparable<Cell>{
 		}
 	}
 	
+	public void drawG(GraphicsContext g, double marginLeft, double marginTop)
+	{
+		double x = this.x * cellHeight + marginLeft + lineWidth ;
+		left = x;
+		double y = this.y * cellWidth + marginTop + lineWidth; 
+		top = y;
+		if (walls[0])
+		{
+			g.setFill(Color.BLACK);
+			g.fillRect(x, y, cellHeight, cellWidth);
+		}
+		drawRect(x, y, g);
+	}
+	
+	// draw rect without margin
 	public void strokeRect(double x, double y, GraphicsContext g, Color c, String steps)
 	{
 		g.setFill(c);
-		//g.strokeRect(x , y, x + cellWidth, y + cellHeight);
-		g.fillOval(x + 4, y + 4, cellWidth/3, cellWidth/3);
-		//g.setStroke(Color.BLACK);
-		//g.strokeLine(x, y, x + cellHeight, y);
-		//g.strokeLine(x + cellHeight, y, x + cellHeight, y + cellWidth);
-		//g.strokeLine(x, y + cellWidth, x + cellWidth, y + cellHeight);
-		//g.strokeLine(x, y, x, y + cellWidth);
-
+		g.fillRect(x , y, cellWidth, cellWidth);
+		drawRect(x, y, g);
+	}
+		
+	// draw rect with margin
+	public void strokeRect(double x, double y, double margin,GraphicsContext g, Color c, String steps)
+	{
+		g.setFill(c);
+		g.fillRect(x + margin, y + margin, cellWidth/3, cellWidth/3);
+		//drawRect(x, y, g);
+	}
+	
+	public void strokeRect(double x, double y, double margin, double size, GraphicsContext g, Color c, String steps)
+	{
+		g.setFill(c);
+		g.fillRect(x + margin, y + margin, size, size);
+		//drawRect(x, y, g);
+	}
+	
+	// draw rect for array list
+	// margin is left sided
+	// distance from left
+	public void strokeRect(List<Cell> list, GraphicsContext g, Color color, double margin)
+	{
+		for (Cell c : list)
+		{
+			c.strokeRect(c.left, c.top, margin, g, color, null);
+		}
+	}
+	
+	/// draw rect with margin
+	
+	public void strokeRect(List<Cell> list, GraphicsContext g, Color color, double margin, Cell... excepts)
+	{
+		for (Cell c : list)
+		{	
+			for (Cell ec: excepts)
+			{
+				if(!c.equals(ec))
+				{
+					c.strokeRect(c.left, c.top, margin, g, color, null);		
+				}
+			}
+		}
+	}
+	
+	//// one for individual cell and another for list of cells
+	// draw rect with size and margin
+	public void strokeRect(List<Cell> list, double margin, double size, GraphicsContext g, Color color)
+	{
+		for (Cell c : list)
+		{	
+			c.strokeRect(c.left, c.top, margin, size, g, color, null);		
+		}
+	}
+	
+	public void strokeRect(double x, double y, GraphicsContext g, Color color, double margin, double size)
+	{
+		strokeRect(x, y, margin, size, g, color, null);		
+	}
+	///
+	
+	
+	
+	// draw rect with line
+	private void drawRect(double x, double y, GraphicsContext g)
+	{
+		g.strokeLine(x, y, x, y + cellHeight);
+		g.strokeLine(x, y + cellHeight, x + cellHeight, y + cellWidth);
+		g.strokeLine(x, y, x + cellWidth, y);
+		g.strokeLine(x + cellWidth, y, x + cellWidth, y + cellHeight);
 	}
 	
 	public void clearRect(double x, double y, GraphicsContext g)
 	{
 		g.setFill(Color.WHITE);
 		//g.strokeRect(x , y, x + cellWidth, y + cellHeight);
-		g.fillOval(x + 4, y + 4, cellWidth/3, cellWidth/3);
+		g.clearRect(x + 4, y + 4, cellWidth/3, cellWidth/3);
 		
 	}
 	
@@ -109,6 +189,20 @@ public class Cell implements Comparable<Cell>{
 		for (Cell c: path)
 		{
 			clearRect(c.left, c.top, g);
+		}
+	}
+	
+	public void clearRect(List<Cell> path, GraphicsContext g, Cell ...excepts)
+	{
+		for (Cell c: path)
+		{
+			for (Cell e: excepts)
+			{
+				if (!e.equals(c))
+				{
+					clearRect(c.left, c.top, g);
+				}
+			}
 		}
 	}
 
