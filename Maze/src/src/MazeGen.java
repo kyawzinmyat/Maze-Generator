@@ -20,10 +20,10 @@ public class MazeGen extends Application{
 	 
 	public void start(Stage stage)
 	{
-		canvas = new Canvas(800, 600);	 
+		canvas = new Canvas(600, 600);	 
 		g = canvas.getGraphicsContext2D();
 	    BorderPane root = new BorderPane(canvas);
-		Scene scene = new Scene(root, 1000, 500);
+		Scene scene = new Scene(root, 900, 700);
 		
 	    
 		
@@ -32,7 +32,7 @@ public class MazeGen extends Application{
 		//Traversal dfs1 = DFS.getObj(maze);
 		//Traversal bfs1 = BFS.getObj(maze);	    
 		stage.setScene(scene);
-		stage.setResizable(true);
+		stage.setResizable(false);
 		stage.setTitle("Simple Paint");
 		stage.show();
 	}

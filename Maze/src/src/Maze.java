@@ -207,7 +207,7 @@ public class Maze {
 				ads.add(maze[x][y - 1]);
 			}
 		}
-		//Collections.shuffle(ads);
+		Collections.shuffle(ads);
 		return ads;
 	}
 	 

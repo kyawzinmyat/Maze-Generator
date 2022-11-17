@@ -91,8 +91,8 @@ public class Widget {
 		spaceBut.setToggleGroup(butGroup);
 		wallBut.setToggleGroup(butGroup);
 		hbox.setAlignment(Pos.BASELINE_CENTER);
-	    hbox.setPadding(new Insets(20, 40, 20, 10)); // space between elements and window border
-	    hbox.relocate(maze.mazeWidth + 200, maze.marginTop);
+	    hbox.setPadding(new Insets(50, 40, 20, 10)); // space between elements and window border
+	    hbox.relocate(maze.mazeWidth + 130, maze.marginTop);
 	    hbox.resize(150, 150);
 		hbox.setManaged(false);
 		dfs.setPadding(new Insets(10, 20, 10, 20));
@@ -199,8 +199,8 @@ public class Widget {
 	{
 		VBox vbox = new VBox(10);
 		vbox.setManaged(false);
-		vbox.relocate(10, maze.marginTop);
-		vbox.setPadding(new Insets(20, 20, 20 ,20));
+		vbox.relocate(20, maze.marginTop);
+		vbox.setPadding(new Insets(60, 20, 20 ,20));
 		vbox.resize(100,100);
 		root.setBottom(vbox);
 		
@@ -324,7 +324,7 @@ public class Widget {
 	{
         sizeLabel = new Label("Size " + maze.cols + " X" + maze.cols);
 		hbox.getChildren().addAll(sizeLabel);
-        Slider slider1 = new Slider(5,60,25);
+        Slider slider1 = new Slider(5,30,15);
         slider1.setPadding(new Insets(0, 20, 0, 20));
         slider1.setMajorTickUnit(10);
         slider1.setPrefWidth(10);
